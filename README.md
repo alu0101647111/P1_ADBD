@@ -137,6 +137,7 @@ FROM libros
 JOIN autores ON libros.id_autor = autores.id_autor;
 ```
 Y nos devuelve un listado con todos los libros y sus autores.
+![alt text](image-5.png)
 
 - Mostrar los préstamos que aún no tienen fecha de devolución.
 ```sql
@@ -144,6 +145,7 @@ SELECT *
 FROM prestamos
 WHERE fecha_devolucion IS NULL;
 ```
+![alt text](image-4.png)
 
 - Obtener los autores que tienen más de un libro registrado.
 ```sql
@@ -153,6 +155,7 @@ JOIN libros ON autores.id_autor = libros.id_autor
 GROUP BY autores.id_autor, autores.nombre
 HAVING COUNT(libros.id_libro) > 1;
 ```
+![alt text](image-3.png)
 
 ### 6. Consultas con agregación
 - Calcular el número total de préstamos realizados.
@@ -160,6 +163,7 @@ HAVING COUNT(libros.id_libro) > 1;
 SELECT COUNT(*) AS total_prestamos
 FROM prestamos;
 ```
+![alt text](image-2.png)
 
 - Obtener el número de libros prestados por cada usuario.
 ```sql
@@ -167,6 +171,7 @@ SELECT usuario_prestatario, COUNT(id_libro) AS cantidad_libros
 FROM prestamos
 GROUP BY usuario_prestatario;
 ```
+![alt text](image-1.png)
 
 ### 7. Modificación de datos
 - Actualizar la fecha de devolución de un préstamo pendiente.
@@ -183,6 +188,7 @@ DELETE FROM libros
 WHERE id_libro = 3;
 ```
 Al eliminar el libro con id_libro = 3, todos los registros de préstamos asociados a ese libro también se eliminarán automáticamente debido a la cláusula `ON DELETE CASCADE`. Lo comprobamos haciendo una consulta para mostrar todos los registros de la tabla de préstamos antes y después de la eliminación.
+
 ![alt text](image.png)
 
 ### 8. Creación de vistas
@@ -202,7 +208,6 @@ GRANT SELECT ON vista_libros_prestados TO usuario_biblio;
 ```
 Y nos devuelve un mensaje de confirmación: `GRANT`.
 
-# HASTA AQUI NO HE EJECUTADO NADA DE LO QUE SIGUE, SOLO LO HE ESCRITO PARA TENERLO COMO REFERENCIA
 ### 9. Funciones y consultas avanzadas
 - Crear una función que reciba el nombre de un autor y devuelva todos los libros escritos por él.
 ```sql
@@ -217,6 +222,7 @@ BEGIN
 END;
 $$ LANGUAGE plpgsql;
 ```
+Que nos devuelve un mensaje de confirmación: `CREATE FUNCTION`.
 
 - Crear una consulta que devuelva los tres libros más prestados.
 ```sql
@@ -227,18 +233,19 @@ GROUP BY libros.id_libro, libros.titulo
 ORDER BY cantidad_prestamos DESC
 LIMIT 3;
 ```
+![alt text](image-6.png)
 
 
 ### 10. Exportación e importación de datos
 - Exportar el contenido de la tabla libros a un archivo CSV.
 
 ```sql
-COPY libros TO '/ruta/a/libros.csv' WITH CSV HEADER;
+COPY libros TO '/ruta/libros.csv' WITH CSV HEADER;
 ```
 
 - Importar datos adicionales de autores desde un archivo CSV externo.
 ```sql
-COPY autores(nombre, nacionalidad) FROM '/ruta/a/autores_adicionales.csv' WITH CSV HEADER;
+COPY autores(nombre, nacionalidad) FROM '/ruta/autores_adicionales.csv' WITH CSV HEADER;
 ```
 
-Hacer esto mejor dentro de la interfaz de dbeaver, ya que es más sencillo y rápido. Se puede hacer desde la opción de "Importar datos" y seleccionar el archivo CSV correspondiente.
+Hacer esto mejor dentro de la interfaz de dbeaver, ya que es más sencillo y rápido. Se puede hacer desde la opción de "Importar datos" y seleccionar el archivo CSV correspondiente. Y la exportación de datos se puede hacer desde la opción de "Exportar datos" y seleccionar el formato CSV.
