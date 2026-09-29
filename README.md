@@ -183,7 +183,7 @@ DELETE FROM libros
 WHERE id_libro = 3;
 ```
 Al eliminar el libro con id_libro = 3, todos los registros de préstamos asociados a ese libro también se eliminarán automáticamente debido a la cláusula `ON DELETE CASCADE`. Lo comprobamos haciendo una consulta para mostrar todos los registros de la tabla de préstamos antes y después de la eliminación.
-
+![alt text](image.png)
 
 ### 8. Creación de vistas
 - Crear una vista llamada vista_libros_prestados que muestre: título del libro, autor y nombre del prestatario.
@@ -226,6 +226,7 @@ JOIN prestamos ON libros.id_libro = prestamos.id_libro
 GROUP BY libros.id_libro, libros.titulo
 ORDER BY cantidad_prestamos DESC
 LIMIT 3;
+```
 
 
 ### 10. Exportación e importación de datos
